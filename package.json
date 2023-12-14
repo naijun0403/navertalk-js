@@ -1,0 +1,22 @@
+{
+  "name": "navbot",
+  "version": "1.0.0",
+  "description": "easy making for navertalktalk bot",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [
+    "naver",
+    "chatbot"
+  ],
+  "author": "naijun0403",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.10.4",
+    "typed-emitter": "^2.1.0"
+  },
+  "dependencies": {
+    "eventemitter3": "^5.0.1"
+  }
+}
