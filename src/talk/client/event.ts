@@ -14,20 +14,17 @@
  * limitations under the License.
  */
 
-import { Event } from '../../event';
+import { Event, OpenEventOptions, FriendEventOptions, SendEvent } from '../../event';
 
 export type ClientEvent = {
     on_event: (event: Event) => void;
     on_error: (error: Error) => void;
 
-    /**
-     * `open` 이벤트가 발생할 때마다 호출됩니다.
-     */
-    on_open: () => void;
+    on_open: (event: Event<OpenEventOptions>) => void;
 
-    /**
-     * `send` 이벤트가 발생할 때마다 호출됩니다.
-     * @param message
-     */
-    on_message: (message: Event.Message) => void;
+    on_leave: (event: Event) => void;
+
+    on_friend: (event: Event<FriendEventOptions>) => void;
+
+    on_send: (event: SendEvent) => void;
 }
