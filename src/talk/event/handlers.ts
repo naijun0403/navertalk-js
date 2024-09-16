@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Event, SendEvent } from '../../event';
+import { ActionEventOptions, EchoEvent, Event, FriendEventOptions, OpenEventOptions, SendEvent } from '../../event';
 import { TalkClientSession } from '../client/session';
 import { TalkChannel } from '../channel';
 import { TalkClient } from '../client';
@@ -41,22 +41,34 @@ export class NaverTalkEventHandler implements EventHandler {
     }
 
     async handleOpen(event: Event): Promise<void> {
+        const open = event as unknown as Event<OpenEventOptions>;
 
+        if (!this.session.channelMap.has(open.user)) {
+            this.session.channelMap.set(open.user, new TalkChannel(open.user, this.session));
+        }
+
+        this.client.emit('on_open', open, this.session.channelMap.get(open.user)!!);
     }
 
     async handleLeave(event: Event): Promise<void> {
-
+        this.client.emit('on_leave', event)
     }
 
     async handleFriend(event: Event): Promise<void> {
+        const friend = event as unknown as Event<FriendEventOptions>;
 
+        if (!this.session.channelMap.has(friend.user)) {
+            this.session.channelMap.set(friend.user, new TalkChannel(friend.user, this.session));
+        }
+
+        this.client.emit('on_friend', friend, this.session.channelMap.get(friend.user)!!);
     }
 
     async handleSend(event: Event): Promise<void> {
         const send = event as unknown as SendEvent;
 
         if (!this.session.channelMap.has(send.user)) {
-            this.session.channelMap.set(send.user, new TalkChannel(send.user, this.session))
+            this.session.channelMap.set(send.user, new TalkChannel(send.user, this.session));
         }
 
         let chat: TalkChatData;
@@ -75,10 +87,22 @@ export class NaverTalkEventHandler implements EventHandler {
     }
 
     async handleEcho(event: Event): Promise<void> {
+        const echo = event as unknown as EchoEvent;
 
+        if (!this.session.channelMap.has(echo.user)) {
+            this.session.channelMap.set(echo.user, new TalkChannel(echo.user, this.session));
+        }
+
+        this.client.emit('on_echo', echo, this.session.channelMap.get(echo.user)!!);
     }
 
     async handleAction(event: Event): Promise<void> {
+        const action = event as unknown as Event<ActionEventOptions>;
 
+        if (!this.session.channelMap.has(action.user)) {
+            this.session.channelMap.set(action.user, new TalkChannel(action.user, this.session));
+        }
+
+        this.client.emit('on_action', action, this.session.channelMap.get(action.user)!!);
     }
 }

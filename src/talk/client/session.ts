@@ -15,7 +15,7 @@
  */
 
 import { ClientOptions } from './index';
-import { EventResult } from '../../request/result';
+import { EventResult } from '../../request';
 import { TalkChannel } from '../channel';
 
 export class TalkClientSession {

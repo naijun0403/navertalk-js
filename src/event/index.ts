@@ -30,3 +30,4 @@ export * from './echo';
 export * from './open';
 export * from './friend';
 export * from './send';
+export * from './action';

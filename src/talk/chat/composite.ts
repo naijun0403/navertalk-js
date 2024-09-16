@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-import { ChatContent } from '../../chat';
-import { ChatType } from '../../chat/type';
+import { ChatContent, ChatType } from '../../chat';
 import { TalkChatData } from './index';
 
 export class CompositeTalkChatData extends TalkChatData {

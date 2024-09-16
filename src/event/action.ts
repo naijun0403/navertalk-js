@@ -14,15 +14,6 @@
  * limitations under the License.
  */
 
-import { TalkChatData } from './index';
-import { ChatContent, ChatType } from '../../chat';
-
-export class ImageTalkChatData extends TalkChatData {
-    constructor(chatContent: ChatContent) {
-        super(chatContent);
-    }
-
-    get type(): ChatType {
-        return ChatType.IMAGE;
-    }
+export interface ActionEventOptions {
+    action: 'typingOn' | 'typingOff';
 }

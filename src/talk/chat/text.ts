@@ -15,9 +15,7 @@
  */
 
 import { TalkChatData } from './index';
-import { ChatContent } from '../../chat';
-import { ChatType } from '../../chat/type';
-import { InputType } from '../../chat/text';
+import { ChatContent, ChatType, InputType } from '../../chat';
 
 export class TextTalkChatData extends TalkChatData {
     constructor(chatContent: ChatContent) {

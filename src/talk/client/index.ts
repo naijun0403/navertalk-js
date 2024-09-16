@@ -15,7 +15,7 @@
  */
 
 import { WebhookClient } from '../../webhook';
-import { EventHandler, NaverTalkEventHandler } from '../event/handlers';
+import { EventHandler, NaverTalkEventHandler } from '../event';
 import { Event } from '../../event';
 import EventEmitter from 'eventemitter3';
 import TypedEmitter from 'typed-emitter/rxjs';
@@ -43,6 +43,7 @@ export class TalkClient extends (EventEmitter as unknown as new () => TypedEmitt
     }
 
     private async handleEvent(event: Event) {
+        this.emit('on_event', event);
         switch (event.event) {
             case 'open':
                 this._eventHandler.handleOpen(event);
@@ -63,7 +64,7 @@ export class TalkClient extends (EventEmitter as unknown as new () => TypedEmitt
                 this._eventHandler.handleAction(event);
                 break;
             default:
-                throw new Error(`Unhandled event: ${event.event}`);
+                this.emit('on_error', new Error(`Unhandled event: ${event.event}`));
         }
     }
 

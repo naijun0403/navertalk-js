@@ -17,7 +17,7 @@
 import { ChatContent } from '../../chat';
 import { TalkClientSession } from '../client/session';
 import { SendEvent } from '../../event';
-import { EventResult } from '../../request/result';
+import { EventResult } from '../../request';
 
 export class TalkChannel {
 
