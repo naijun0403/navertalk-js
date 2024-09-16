@@ -14,9 +14,16 @@
  * limitations under the License.
  */
 
-import { QuickReply } from "../components/quickReply";
+import { TalkChatData } from './index';
+import { ChatContent } from '../../chat';
+import { ChatType } from '../../chat/type';
 
-export interface ImageContent {
-    imageUrl: string;
-    quickReply?: QuickReply;
+export class ImageTalkChatData extends TalkChatData {
+    constructor(chatContent: ChatContent) {
+        super(chatContent);
+    }
+
+    get type(): ChatType {
+        return ChatType.IMAGE;
+    }
 }

@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-import { QuickReply } from "../components/quickReply";
-
-export interface ImageContent {
-    imageUrl: string;
-    quickReply?: QuickReply;
+export interface EventResult {
+    success: boolean;
+    resultCode: string;
+    resultMessage: string;
 }

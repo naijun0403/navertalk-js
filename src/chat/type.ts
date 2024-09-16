@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-import { QuickReply } from "../components/quickReply";
+export enum ChatType {
+    TEXT,
+    IMAGE,
+    COMPOSITE,
 
-export interface ImageContent {
-    imageUrl: string;
-    quickReply?: QuickReply;
+    UNKNOWN,
 }

@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-import { QuickReply } from "../components/quickReply";
+import { Button } from "./button";
 
-export interface ImageContent {
-    imageUrl: string;
-    quickReply?: QuickReply;
+export interface QuickReply {
+    buttonList: Button[];
 }

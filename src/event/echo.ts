@@ -14,9 +14,16 @@
  * limitations under the License.
  */
 
-import { QuickReply } from "../components/quickReply";
+import { ChatContent } from "../chat";
+import { EventType, Event } from "./index";
 
-export interface ImageContent {
-    imageUrl: string;
-    quickReply?: QuickReply;
+export type EchoEvent = Event<EchoEventOptions> & ChatContent & ExtendEchoEvent;
+
+export interface EchoEventOptions {
+    mobile: boolean;
+}
+
+interface ExtendEchoEvent {
+    echoedEvent: EventType;
+    partner: string;
 }

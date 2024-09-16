@@ -1,6 +1,6 @@
 {
   "name": "navbot",
-  "version": "1.0.0",
+  "version": "0.0.1-alpha",
   "description": "easy making for navertalktalk bot",
   "main": "dist/index.js",
   "scripts": {
@@ -17,6 +17,7 @@
     "typed-emitter": "^2.1.0"
   },
   "dependencies": {
-    "eventemitter3": "^5.0.1"
+    "eventemitter3": "^5.0.1",
+    "fastify": "^4.28.1"
   }
 }

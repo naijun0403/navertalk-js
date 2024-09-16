@@ -14,18 +14,17 @@
  * limitations under the License.
  */
 
-import * as https from 'https';
+import { FastifyServerOptions } from 'fastify';
 import { WebhookClient } from './client';
 
 export interface WebhookOption {
     host: string; // default: 0.0.0.0
     port: number; // default: 8080
     path: string; // default: /webhook
-    https?: https.ServerOptions; // default: undefined (http)
+    options?: FastifyServerOptions; // default: undefined (http)
 }
 
 export namespace WebhookOption {
-
     export function createDefault(): WebhookOption {
         return {
             host: '0.0.0.0',
@@ -33,11 +32,10 @@ export namespace WebhookOption {
             path: '/webhook',
         }
     }
-
 }
 
-export async function createWebhookClient(option: WebhookOption) {
-    return new WebhookClient(option)
+export async function createWebhookClient(option: WebhookOption = WebhookOption.createDefault()) {
+    return new WebhookClient(option);
 }
 
 export * from './event';

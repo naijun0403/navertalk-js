@@ -15,7 +15,9 @@
  */
 
 import { Composite } from '../components';
+import { QuickReply } from "../components/quickReply";
 
 export interface CompositeContent {
     compositeList: Composite[];
+    quickReply?: QuickReply;
 }

@@ -15,21 +15,63 @@
  */
 
 import { WebhookClient } from '../../webhook';
+import { EventHandler, NaverTalkEventHandler } from '../event/handlers';
+import { Event } from '../../event';
+import EventEmitter from 'eventemitter3';
+import TypedEmitter from 'typed-emitter/rxjs';
+import { ClientEvent } from './event';
+import { TalkClientSession } from './session';
 
-export class NaverTalkClient {
+export class TalkClient extends (EventEmitter as unknown as new () => TypedEmitter<ClientEvent>) {
+    private readonly _session: TalkClientSession;
+    private _eventHandler: EventHandler;
 
     private constructor(
-        private _webhook: WebhookClient
-    ) {}
+        private _webhook: WebhookClient,
+        private _authorization: string,
+        private _options: ClientOptions,
+    ) {
+        super();
+
+        this._session = new TalkClientSession(_authorization, _options);
+        this._eventHandler = new NaverTalkEventHandler(this._session, this)
+    }
 
     async start() {
-        this._webhook.on('on_event', (event) => {
-
-        })
+        this._webhook.on('on_event', this.handleEvent.bind(this));
+        this._webhook.initialize();
     }
 
-    static async create(webhook: WebhookClient): Promise<NaverTalkClient> {
-        return new NaverTalkClient(webhook);
+    private async handleEvent(event: Event) {
+        switch (event.event) {
+            case 'open':
+                this._eventHandler.handleOpen(event);
+                break;
+            case 'leave':
+                this._eventHandler.handleLeave(event);
+                break;
+            case 'friend':
+                this._eventHandler.handleFriend(event);
+                break;
+            case 'send':
+                this._eventHandler.handleSend(event);
+                break;
+            case 'echo':
+                this._eventHandler.handleEcho(event);
+                break;
+            case 'action':
+                this._eventHandler.handleAction(event);
+                break;
+            default:
+                throw new Error(`Unhandled event: ${event.event}`);
+        }
     }
 
+    static async create(webhook: WebhookClient, authorization: string, options: Partial<ClientOptions> = {}): Promise<TalkClient> {
+        return new TalkClient(webhook, authorization, { talkHost: 'https://gw.talk.naver.com', ...options });
+    }
+}
+
+export interface ClientOptions {
+    talkHost: string;
 }

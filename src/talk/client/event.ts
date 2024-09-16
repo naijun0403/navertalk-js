@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-import { Event, OpenEventOptions, FriendEventOptions, SendEvent } from '../../event';
+import { Event, OpenEventOptions, FriendEventOptions } from '../../event';
+import { TalkChatData } from '../chat';
+import { TalkChannel } from '../channel';
 
 export type ClientEvent = {
     on_event: (event: Event) => void;
@@ -26,5 +28,5 @@ export type ClientEvent = {
 
     on_friend: (event: Event<FriendEventOptions>) => void;
 
-    on_send: (event: SendEvent) => void;
+    on_send: (chat: TalkChatData, channel: TalkChannel) => void;
 }

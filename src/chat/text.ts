@@ -14,8 +14,13 @@
  * limitations under the License.
  */
 
+import { QuickReply } from "../components/quickReply";
+
 export interface TextContent {
     text: string;
     code?: string;
-    inputType?: 'typing' | 'button' | 'sticker' | 'vphone' | 'product';
+    inputType?: InputType;
+    quickReply?: QuickReply;
 }
+
+export type InputType = 'typing' | 'button' | 'sticker' | 'vphone' | 'product';
