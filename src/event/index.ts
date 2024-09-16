@@ -26,6 +26,7 @@ export interface Event<T = Record<string, unknown>> {
 
 export type EventType = 'open' | 'leave' | 'friend' | 'send' | 'echo' | 'action' | 'persistentMenu';
 
+export * from './echo';
 export * from './open';
 export * from './friend';
 export * from './send';

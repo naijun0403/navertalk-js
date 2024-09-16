@@ -14,4 +14,7 @@
  * limitations under the License.
  */
 
+export * from './channel';
+export * from './chat';
 export * from './client';
+export * from './event';

@@ -18,3 +18,4 @@ export * from './button';
 export * from './composite';
 export * from './element';
 export * from './image';
+export * from './quickReply';

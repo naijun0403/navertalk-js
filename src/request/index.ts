@@ -14,8 +14,4 @@
  * limitations under the License.
  */
 
-export * from './composite';
-export * from './content';
-export * from './image';
-export * from './text';
-export * from './type';
+export * from './result';
