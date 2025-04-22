@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { TalkClient, createWebhookClient } from '../src';
+import { TalkClient, createWebhookClient } from 'navertalk-js';
 
 async function main() {
     const client = await TalkClient.create(
