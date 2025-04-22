@@ -1,4 +1,4 @@
-# navbot (WIP)
+# navertalk-js (WIP)
 네이버 톡톡봇을 보다 쉽게
 
 ## 스펙
