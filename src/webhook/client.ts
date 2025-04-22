@@ -42,9 +42,11 @@ export class WebhookClient extends (EventEmitter as unknown as new () => TypedEm
         try {
             await this._server.listen({ port: this.option.port, host: this.option.host });
         } catch (error) {
-            const err = error instanceof Error ? error : new Error(String(error));
-            this.emit('error', err);
-            throw err;
+            if (error instanceof Error) {
+                this.emit('error', error);
+                return;
+            }
+            throw error;
         }
     }
 

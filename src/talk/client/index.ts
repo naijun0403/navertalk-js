@@ -44,8 +44,10 @@ export class TalkClient extends (EventEmitter as unknown as new () => TypedEmitt
         try {
             await this._webhook.initialize();
         } catch (error) {
-            const err = error instanceof Error ? error : new Error(String(error));
-            this.emit('on_error', err);
+            if (error instanceof Error) {
+                this.emit('on_error', error);
+                return;
+            }
         }
     }
 
@@ -76,8 +78,10 @@ export class TalkClient extends (EventEmitter as unknown as new () => TypedEmitt
                     break;
             }
         } catch (error) {
-            const err = error instanceof Error ? error : new Error(String(error));
-            this.emit('on_error', err);
+            if (error instanceof Error) {
+                this.emit('on_error', error);
+                return;
+            }
         }
     }
 
