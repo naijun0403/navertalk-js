@@ -24,13 +24,11 @@ import fastify, { FastifyInstance } from 'fastify';
 export class WebhookClient extends (EventEmitter as unknown as new () => TypedEmitter<WebhookEvent>) {
     private _server: FastifyInstance | null = null;
 
-    constructor(
-        private option: WebhookOption = WebhookOption.createDefault()
-    ) {
+    constructor(private option: WebhookOption = WebhookOption.createDefault()) {
         super();
     }
 
-    initialize() {
+    async initialize() {
         if (this._server !== null) throw new Error('Already initialized, please call destroy() first.');
 
         this._server = fastify(this.option.options ?? {});
@@ -41,12 +39,13 @@ export class WebhookClient extends (EventEmitter as unknown as new () => TypedEm
             return reply.code(200).send();
         });
 
-        this._server.listen({ port: this.option.port, host: this.option.host }, (err) => {
-            if (err) {
-                console.error('Error starting server:', err);
-                process.exit(1);
-            }
-        });
+        try {
+            await this._server.listen({ port: this.option.port, host: this.option.host });
+        } catch (error) {
+            const err = error instanceof Error ? error : new Error(String(error));
+            this.emit('error', err);
+            throw err;
+        }
     }
 
     async destroy() {

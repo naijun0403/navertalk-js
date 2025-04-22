@@ -28,47 +28,64 @@ export class TalkClient extends (EventEmitter as unknown as new () => TypedEmitt
 
     private constructor(
         private _webhook: WebhookClient,
-        private _authorization: string,
-        private _options: ClientOptions,
+        _authorization: string,
+        _options: ClientOptions,
     ) {
         super();
-
         this._session = new TalkClientSession(_authorization, _options);
-        this._eventHandler = new NaverTalkEventHandler(this._session, this)
+        this._eventHandler = new NaverTalkEventHandler(this._session, this);
     }
 
     async start() {
         this._webhook.on('on_event', this.handleEvent.bind(this));
-        this._webhook.initialize();
+        this._webhook.on('error', error => {
+            this.emit('on_error', error);
+        });
+        try {
+            await this._webhook.initialize();
+        } catch (error) {
+            const err = error instanceof Error ? error : new Error(String(error));
+            this.emit('on_error', err);
+        }
     }
 
     private async handleEvent(event: Event) {
         this.emit('on_event', event);
-        switch (event.event) {
-            case 'open':
-                this._eventHandler.handleOpen(event);
-                break;
-            case 'leave':
-                this._eventHandler.handleLeave(event);
-                break;
-            case 'friend':
-                this._eventHandler.handleFriend(event);
-                break;
-            case 'send':
-                this._eventHandler.handleSend(event);
-                break;
-            case 'echo':
-                this._eventHandler.handleEcho(event);
-                break;
-            case 'action':
-                this._eventHandler.handleAction(event);
-                break;
-            default:
-                this.emit('on_error', new Error(`Unhandled event: ${event.event}`));
+        try {
+            switch (event.event) {
+                case 'open':
+                    await this._eventHandler.handleOpen(event);
+                    break;
+                case 'leave':
+                    await this._eventHandler.handleLeave(event);
+                    break;
+                case 'friend':
+                    await this._eventHandler.handleFriend(event);
+                    break;
+                case 'send':
+                    await this._eventHandler.handleSend(event);
+                    break;
+                case 'echo':
+                    await this._eventHandler.handleEcho(event);
+                    break;
+                case 'action':
+                    await this._eventHandler.handleAction(event);
+                    break;
+                default:
+                    this.emit('on_error', new Error(`Unhandled event: ${event.event}`));
+                    break;
+            }
+        } catch (error) {
+            const err = error instanceof Error ? error : new Error(String(error));
+            this.emit('on_error', err);
         }
     }
 
-    static async create(webhook: WebhookClient, authorization: string, options: Partial<ClientOptions> = {}): Promise<TalkClient> {
+    static async create(
+        webhook: WebhookClient,
+        authorization: string,
+        options: Partial<ClientOptions> = {}
+    ): Promise<TalkClient> {
         return new TalkClient(webhook, authorization, { talkHost: 'https://gw.talk.naver.com', ...options });
     }
 }

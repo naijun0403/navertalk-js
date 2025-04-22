@@ -25,12 +25,12 @@ import { CompositeTalkChatData } from '../chat/composite';
 
 // persistentMenu는 유저가 전송할 수 없는 이벤트이니 처리 대상에서 제외
 export interface EventHandler {
-    handleOpen(event: Event): void;
-    handleLeave(event: Event): void;
-    handleFriend(event: Event): void;
-    handleSend(event: Event): void;
-    handleEcho(event: Event): void;
-    handleAction(event: Event): void;
+    handleOpen(event: Event): Promise<void>;
+    handleLeave(event: Event): Promise<void>;
+    handleFriend(event: Event): Promise<void>;
+    handleSend(event: Event): Promise<void>;
+    handleEcho(event: Event): Promise<void>;
+    handleAction(event: Event): Promise<void>;
 }
 
 export class NaverTalkEventHandler implements EventHandler {
