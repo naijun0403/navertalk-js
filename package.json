@@ -14,7 +14,7 @@
   "author": "naijun0403",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^22.14.1",
+    "@types/node": "^24.0.0",
     "typed-emitter": "^2.1.0"
   },
   "dependencies": {
