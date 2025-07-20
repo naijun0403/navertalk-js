@@ -18,3 +18,4 @@ export * from './channel';
 export * from './chat';
 export * from './client';
 export * from './event';
+export * from './menu';
