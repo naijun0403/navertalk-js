@@ -15,13 +15,12 @@
  */
 
 import { WebhookOption } from './index';
-import EventEmitter from 'eventemitter3';
-import TypedEmitter from 'typed-emitter/rxjs';
+import { TypedEmitter } from 'tiny-typed-emitter';
 import { WebhookEvent } from './event';
 import { Event } from '../event';
 import fastify, { FastifyInstance } from 'fastify';
 
-export class WebhookClient extends (EventEmitter as unknown as new () => TypedEmitter<WebhookEvent>) {
+export class WebhookClient extends TypedEmitter<WebhookEvent> {
     private _server: FastifyInstance | null = null;
 
     constructor(private option: WebhookOption = WebhookOption.createDefault()) {

@@ -1,6 +1,6 @@
 {
   "name": "navertalk-js",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "easy making for navertalktalk bot",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -14,11 +14,10 @@
   "author": "naijun0403",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^24.0.0",
-    "typed-emitter": "^2.1.0"
+    "@types/node": "^24.0.0"
   },
   "dependencies": {
-    "eventemitter3": "^5.0.1",
-    "fastify": "^5.3.2"
+    "fastify": "^5.3.2",
+    "tiny-typed-emitter": "^2.1.0"
   }
 }

@@ -17,12 +17,11 @@
 import { WebhookClient } from '../../webhook';
 import { EventHandler, NaverTalkEventHandler } from '../event';
 import { Event } from '../../event';
-import EventEmitter from 'eventemitter3';
-import TypedEmitter from 'typed-emitter/rxjs';
 import { ClientEvent } from './event';
 import { TalkClientSession } from './session';
+import { TypedEmitter } from 'tiny-typed-emitter';
 
-export class TalkClient extends (EventEmitter as unknown as new () => TypedEmitter<ClientEvent>) {
+export class TalkClient extends TypedEmitter<ClientEvent> {
     private readonly _session: TalkClientSession;
     private _eventHandler: EventHandler;
 
