@@ -20,12 +20,12 @@ export interface MenuContent {
     menus: Menu[];
 }
 
-export interface Menu {
+export interface IMenu {
     type: MenuType;
     data: unknown;
 }
 
-export interface TextMenu extends Menu {
+export interface TextMenu extends IMenu {
     type: 'TEXT';
     data: {
         title: string;
@@ -33,7 +33,7 @@ export interface TextMenu extends Menu {
     }
 }
 
-export interface LinkMenu extends Menu {
+export interface LinkMenu extends IMenu {
     type: 'LINK';
     data: {
         title: string;
@@ -42,10 +42,12 @@ export interface LinkMenu extends Menu {
     }
 }
 
-export interface NestedMenu extends Menu {
+export interface NestedMenu extends IMenu {
     type: 'NESTED';
     data: {
         title: string;
         menus: MenuContent;
     }
 }
+
+export type Menu = TextMenu | LinkMenu | NestedMenu;
