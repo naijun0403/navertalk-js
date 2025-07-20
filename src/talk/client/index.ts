@@ -20,10 +20,12 @@ import { Event } from '../../event';
 import { ClientEvent } from './event';
 import { TalkClientSession } from './session';
 import { TypedEmitter } from 'tiny-typed-emitter';
+import { MenuController } from '../menu';
 
 export class TalkClient extends TypedEmitter<ClientEvent> {
     private readonly _session: TalkClientSession;
     private _eventHandler: EventHandler;
+    private _menuController: MenuController;
 
     private constructor(
         private _webhook: WebhookClient,
@@ -33,6 +35,11 @@ export class TalkClient extends TypedEmitter<ClientEvent> {
         super();
         this._session = new TalkClientSession(_authorization, _options);
         this._eventHandler = new NaverTalkEventHandler(this._session, this);
+        this._menuController = new MenuController(this._session);
+    }
+
+    get menuController() {
+        return this._menuController;
     }
 
     async start() {
