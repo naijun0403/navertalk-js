@@ -14,7 +14,7 @@
   "author": "naijun0403",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^24.0.0"
+    "@types/node": "^25.0.1"
   },
   "dependencies": {
     "fastify": "^5.3.2",
