@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { ChatContent, MenuContent, QuickReply, TalkClient, createWebhookClient } from 'navertalk-js';
+import { type ChatContent, type MenuContent, type QuickReply, TalkClient, createWebhookClient } from 'navertalk-js';
 
 const quickReply: QuickReply = {
     buttonList: [

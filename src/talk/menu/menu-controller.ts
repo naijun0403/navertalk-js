@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import { PersistentMenuEvent } from '../../event/persistentMenu';
-import { MenuContent } from '../../menu';
-import { EventResult } from '../../request';
-import { TalkClientSession } from '../client/session';
+import { type PersistentMenuEvent } from '../../event/persistentMenu';
+import { type MenuContent } from '../../menu';
+import { type EventResult } from '../../request';
+import { type TalkClientSession } from '../client/session';
 
 export class MenuController {
     constructor(

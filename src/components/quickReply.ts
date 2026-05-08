@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { QuickReplyButton } from './button';
+import { type QuickReplyButton } from './button';
 
 export interface QuickReply {
     buttonList: QuickReplyButton[];

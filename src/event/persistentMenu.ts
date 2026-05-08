@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { MenuContent } from '../menu';
+import { type MenuContent } from '../menu';
 
 // 다른 이벤트과는 다르게 options 필드가 없고 유저가 직접 보내는게 아니기 떄문에 user 필드도 없음, 
 export interface PersistentMenuEvent {

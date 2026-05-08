@@ -15,16 +15,16 @@
  */
 
 import {
-    ActionEvent,
-    EchoEvent,
-    FriendEvent,
-    IncomingEvent,
-    LeaveEvent,
-    OpenEvent,
-    SendEvent,
+    type ActionEvent,
+    type EchoEvent,
+    type FriendEvent,
+    type IncomingEvent,
+    type LeaveEvent,
+    type OpenEvent,
+    type SendEvent,
 } from '../../event';
-import { TalkClientSession } from '../client/session';
-import { TalkChannel } from '../channel';
+import { type TalkClientSession } from '../client/session';
+import { type TalkChannel } from '../channel';
 import { createTalkChatData } from '../chat';
 import type { TalkClient } from '../client';
 

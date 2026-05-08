@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { WebhookEventPayload } from '../event';
+import { type WebhookEventPayload } from '../event';
 
 export type WebhookEvent = {
     on_event: (event: WebhookEventPayload) => void;

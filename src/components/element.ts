@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import { Image } from './image';
-import { ElementButton } from './button';
+import { type Image } from './image';
+import { type ElementButton } from './button';
 
 export interface ElementList {
     type: 'LIST';

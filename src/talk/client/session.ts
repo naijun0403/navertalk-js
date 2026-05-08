@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import { ClientOptions } from './index';
-import { EventResult } from '../../request';
+import { type ClientOptions } from './index';
+import { type EventResult } from '../../request';
 import { TalkChannel } from '../channel';
-import { OutgoingEvent } from '../../event';
+import { type OutgoingEvent } from '../../event';
 
 export class TalkClientSession {
     public readonly channelMap: Map<string, TalkChannel> = new Map();

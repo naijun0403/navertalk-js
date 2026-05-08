@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import { TextContent } from './text';
-import { ImageContent } from './image';
-import { CompositeContent } from './composite';
+import { type TextContent } from './text';
+import { type ImageContent } from './image';
+import { type CompositeContent } from './composite';
 
 export interface ChatContentFields {
     textContent?: TextContent;

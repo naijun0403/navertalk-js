@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import { Button } from './button';
-import { ElementList } from './element';
-import { Image } from './image';
+import { type Button } from './button';
+import { type ElementList } from './element';
+import { type Image } from './image';
 
 export interface Composite {
     title?: string;

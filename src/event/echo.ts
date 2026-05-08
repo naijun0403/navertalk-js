@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { ChatContent } from '../chat';
+import { type ChatContent } from '../chat';
 import type { Event } from './index';
 
 export type EchoEvent = Event<EchoEventOptions, 'echo'> & ChatContent & ExtendEchoEvent;

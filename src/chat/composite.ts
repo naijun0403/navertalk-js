@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Composite, QuickReply } from '../components';
+import { type Composite, type QuickReply } from '../components';
 
 export interface CompositeContent {
     compositeList: Composite[];

@@ -15,7 +15,7 @@
  */
 
 import type { Event } from './index';
-import { ChatContent } from '../chat';
+import { type ChatContent } from '../chat';
 
 export type SendEvent = Event<SendEventOptions, 'send'> & ChatContent;
 

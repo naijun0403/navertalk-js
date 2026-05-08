@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { QuickReply } from '../components';
+import { type QuickReply } from '../components';
 
 export interface TextContent {
     text: string;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { ChatContent, ChatType } from '../../chat';
+import { type ChatContent, ChatType } from '../../chat';
 import type { CompositeTalkChatData } from './composite';
 import type { ImageTalkChatData } from './image';
 import type { TextTalkChatData } from './text';

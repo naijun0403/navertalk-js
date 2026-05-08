@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import { TextChatContent, ChatType, InputType } from '../../chat';
-import { QuickReply } from '../../components';
+import { type TextChatContent, ChatType, type InputType } from '../../chat';
+import { type QuickReply } from '../../components';
 import { TalkChatData } from './data';
 
 export class TextTalkChatData extends TalkChatData<TextChatContent> {

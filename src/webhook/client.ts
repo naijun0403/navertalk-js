@@ -16,9 +16,9 @@
 
 import { WebhookOption } from './index';
 import { TypedEmitter } from 'tiny-typed-emitter';
-import { WebhookEvent } from './event';
-import { WebhookEventPayload } from '../event';
-import fastify, { FastifyInstance } from 'fastify';
+import { type WebhookEvent } from './event';
+import { type WebhookEventPayload } from '../event';
+import fastify, { type FastifyInstance } from 'fastify';
 
 export class WebhookClient extends TypedEmitter<WebhookEvent> {
     private _server: FastifyInstance | null = null;

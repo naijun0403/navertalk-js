@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { FastifyServerOptions } from 'fastify';
+import { type FastifyServerOptions } from 'fastify';
 import { WebhookClient } from './client';
 
 export interface WebhookOption {
@@ -24,15 +24,15 @@ export interface WebhookOption {
     options?: FastifyServerOptions; // default: undefined (http)
 }
 
-export namespace WebhookOption {
-    export function createDefault(): WebhookOption {
+export const WebhookOption = {
+    createDefault(): WebhookOption {
         return {
             host: '0.0.0.0',
             port: 8080,
             path: '/webhook',
-        }
-    }
-}
+        };
+    },
+};
 
 export async function createWebhookClient(option: WebhookOption = WebhookOption.createDefault()) {
     return new WebhookClient(option);

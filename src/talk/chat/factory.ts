@@ -15,13 +15,13 @@
  */
 
 import {
-    ChatContentFields,
+    type ChatContentFields,
     isCompositeChatContent,
     isImageChatContent,
     isTextChatContent,
 } from '../../chat';
 import { CompositeTalkChatData } from './composite';
-import { TalkChatData } from './data';
+import { type TalkChatData } from './data';
 import { ImageTalkChatData } from './image';
 import { TextTalkChatData } from './text';
 

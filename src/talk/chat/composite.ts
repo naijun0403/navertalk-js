@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import { CompositeChatContent, ChatType } from '../../chat';
-import { Composite, QuickReply } from '../../components';
+import { type CompositeChatContent, ChatType } from '../../chat';
+import { type Composite, type QuickReply } from '../../components';
 import { TalkChatData } from './data';
 
 export class CompositeTalkChatData extends TalkChatData<CompositeChatContent> {

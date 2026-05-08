@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import { ActionEvent, EchoEvent, FriendEvent, IncomingEvent, LeaveEvent, OpenEvent } from '../../event';
-import { TalkChatData } from '../chat';
-import { TalkChannel } from '../channel';
+import { type ActionEvent, type EchoEvent, type FriendEvent, type IncomingEvent, type LeaveEvent, type OpenEvent } from '../../event';
+import { type TalkChatData } from '../chat';
+import { type TalkChannel } from '../channel';
 
 export type ClientEvent = {
     on_event: (event: IncomingEvent) => void;

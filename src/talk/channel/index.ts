@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import { ChatContent } from '../../chat';
-import { TalkClientSession } from '../client/session';
-import { SendEvent } from '../../event';
-import { EventResult } from '../../request';
+import { type ChatContent } from '../../chat';
+import { type TalkClientSession } from '../client/session';
+import { type SendEvent } from '../../event';
+import { type EventResult } from '../../request';
 
 export class TalkChannel {
 

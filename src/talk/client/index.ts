@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import { WebhookClient } from '../../webhook';
-import { EventHandler, NaverTalkEventHandler } from '../event';
-import { isIncomingEvent, WebhookEventPayload } from '../../event';
-import { ClientEvent } from './event';
+import { type WebhookClient } from '../../webhook';
+import { type EventHandler, NaverTalkEventHandler } from '../event';
+import { isIncomingEvent, type WebhookEventPayload } from '../../event';
+import { type ClientEvent } from './event';
 import { TalkClientSession } from './session';
 import { TypedEmitter } from 'tiny-typed-emitter';
 import { MenuController } from '../menu';
