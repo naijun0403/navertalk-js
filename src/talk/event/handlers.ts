@@ -14,95 +14,75 @@
  * limitations under the License.
  */
 
-import { ActionEventOptions, EchoEvent, Event, FriendEventOptions, OpenEventOptions, SendEvent } from '../../event';
+import {
+    ActionEvent,
+    EchoEvent,
+    FriendEvent,
+    IncomingEvent,
+    LeaveEvent,
+    OpenEvent,
+    SendEvent,
+} from '../../event';
 import { TalkClientSession } from '../client/session';
 import { TalkChannel } from '../channel';
-import { TalkClient } from '../client';
-import { TalkChatData } from '../chat';
-import { TextTalkChatData } from '../chat/text';
-import { ImageTalkChatData } from '../chat/image';
-import { CompositeTalkChatData } from '../chat/composite';
+import { createTalkChatData } from '../chat';
+import type { TalkClient } from '../client';
 
 // persistentMenu는 유저가 전송할 수 없는 이벤트이니 처리 대상에서 제외
 export interface EventHandler {
-    handleOpen(event: Event): Promise<void>;
-    handleLeave(event: Event): Promise<void>;
-    handleFriend(event: Event): Promise<void>;
-    handleSend(event: Event): Promise<void>;
-    handleEcho(event: Event): Promise<void>;
-    handleAction(event: Event): Promise<void>;
+    handle(event: IncomingEvent): Promise<void>;
 }
 
+type EventHandlerMap = {
+    [TEvent in IncomingEvent['event']]: (event: Extract<IncomingEvent, { event: TEvent }>) => Promise<void>;
+};
+
 export class NaverTalkEventHandler implements EventHandler {
+    private readonly handlers: EventHandlerMap = {
+        open: event => this.handleOpen(event),
+        leave: event => this.handleLeave(event),
+        friend: event => this.handleFriend(event),
+        send: event => this.handleSend(event),
+        echo: event => this.handleEcho(event),
+        action: event => this.handleAction(event),
+    };
+
     constructor(
         private session: TalkClientSession,
         private client: TalkClient,
     ) {
     }
 
-    async handleOpen(event: Event): Promise<void> {
-        const open = event as unknown as Event<OpenEventOptions>;
-
-        if (!this.session.channelMap.has(open.user)) {
-            this.session.channelMap.set(open.user, new TalkChannel(open.user, this.session));
-        }
-
-        this.client.emit('on_open', open, this.session.channelMap.get(open.user)!!);
+    async handle(event: IncomingEvent): Promise<void> {
+        const handler = this.handlers[event.event] as (event: IncomingEvent) => Promise<void>;
+        await handler(event);
     }
 
-    async handleLeave(event: Event): Promise<void> {
-        this.client.emit('on_leave', event)
+    private channelOf(event: { user: string }): TalkChannel {
+        return this.session.getOrCreateChannel(event.user);
     }
 
-    async handleFriend(event: Event): Promise<void> {
-        const friend = event as unknown as Event<FriendEventOptions>;
-
-        if (!this.session.channelMap.has(friend.user)) {
-            this.session.channelMap.set(friend.user, new TalkChannel(friend.user, this.session));
-        }
-
-        this.client.emit('on_friend', friend, this.session.channelMap.get(friend.user)!!);
+    private async handleOpen(event: OpenEvent): Promise<void> {
+        this.client.emit('on_open', event, this.channelOf(event));
     }
 
-    async handleSend(event: Event): Promise<void> {
-        const send = event as unknown as SendEvent;
-
-        if (!this.session.channelMap.has(send.user)) {
-            this.session.channelMap.set(send.user, new TalkChannel(send.user, this.session));
-        }
-
-        let chat: TalkChatData;
-
-        if (send.textContent) {
-            chat = new TextTalkChatData(send);
-        } else if (send.imageContent) {
-            chat = new ImageTalkChatData(send);
-        } else if (send.compositeContent) {
-            chat = new CompositeTalkChatData(send);
-        } else {
-            throw new Error('Invalid chat request')
-        }
-
-        this.client.emit('on_send', chat, this.session.channelMap.get(send.user)!!);
+    private async handleLeave(event: LeaveEvent): Promise<void> {
+        this.client.emit('on_leave', event);
     }
 
-    async handleEcho(event: Event): Promise<void> {
-        const echo = event as unknown as EchoEvent;
-
-        if (!this.session.channelMap.has(echo.user)) {
-            this.session.channelMap.set(echo.user, new TalkChannel(echo.user, this.session));
-        }
-
-        this.client.emit('on_echo', echo, this.session.channelMap.get(echo.user)!!);
+    private async handleFriend(event: FriendEvent): Promise<void> {
+        this.client.emit('on_friend', event, this.channelOf(event));
     }
 
-    async handleAction(event: Event): Promise<void> {
-        const action = event as unknown as Event<ActionEventOptions>;
+    private async handleSend(event: SendEvent): Promise<void> {
+        this.client.emit('on_send', createTalkChatData(event), this.channelOf(event));
+    }
 
-        if (!this.session.channelMap.has(action.user)) {
-            this.session.channelMap.set(action.user, new TalkChannel(action.user, this.session));
-        }
+    private async handleEcho(event: EchoEvent): Promise<void> {
+        this.client.emit('on_echo', event, this.channelOf(event));
+    }
 
-        this.client.emit('on_action', action, this.session.channelMap.get(action.user)!!);
+    private async handleAction(event: ActionEvent): Promise<void> {
+        this.client.emit('on_action', event, this.channelOf(event));
     }
 }

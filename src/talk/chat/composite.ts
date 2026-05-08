@@ -14,17 +14,26 @@
  * limitations under the License.
  */
 
-import { ChatContent, ChatType } from '../../chat';
-import { TalkChatData } from './index';
+import { CompositeChatContent, ChatType } from '../../chat';
+import { Composite, QuickReply } from '../../components';
+import { TalkChatData } from './data';
 
-export class CompositeTalkChatData extends TalkChatData {
+export class CompositeTalkChatData extends TalkChatData<CompositeChatContent> {
     constructor(
-        chatContent: ChatContent
+        chatContent: CompositeChatContent
     ) {
         super(chatContent);
     }
 
     get type(): ChatType {
         return ChatType.COMPOSITE;
+    }
+
+    get compositeList(): Composite[] {
+        return this.chatContent.compositeContent.compositeList;
+    }
+
+    get quickReply(): QuickReply | undefined {
+        return this.chatContent.compositeContent.quickReply;
     }
 }

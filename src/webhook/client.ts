@@ -17,7 +17,7 @@
 import { WebhookOption } from './index';
 import { TypedEmitter } from 'tiny-typed-emitter';
 import { WebhookEvent } from './event';
-import { Event } from '../event';
+import { WebhookEventPayload } from '../event';
 import fastify, { FastifyInstance } from 'fastify';
 
 export class WebhookClient extends TypedEmitter<WebhookEvent> {
@@ -33,7 +33,7 @@ export class WebhookClient extends TypedEmitter<WebhookEvent> {
         this._server = fastify(this.option.options ?? {});
 
         this._server.post(this.option.path, async (request, reply) => {
-            const data = request.body as Event;
+            const data = request.body as WebhookEventPayload;
             this.emit('on_event', data);
             return reply.code(200).send();
         });

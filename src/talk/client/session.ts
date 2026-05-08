@@ -17,16 +17,29 @@
 import { ClientOptions } from './index';
 import { EventResult } from '../../request';
 import { TalkChannel } from '../channel';
+import { OutgoingEvent } from '../../event';
 
 export class TalkClientSession {
-    public channelMap: Map<string, TalkChannel> = new Map()
+    public readonly channelMap: Map<string, TalkChannel> = new Map();
 
     constructor(
         private _authorization: string,
         private _options: ClientOptions
     ) {}
 
-    async requestEvent<T = Event>(event: T): Promise<EventResult> {
+    getOrCreateChannel(userId: string): TalkChannel {
+        const channel = this.channelMap.get(userId);
+
+        if (channel !== undefined) {
+            return channel;
+        }
+
+        const created = new TalkChannel(userId, this);
+        this.channelMap.set(userId, created);
+        return created;
+    }
+
+    async requestEvent<T extends OutgoingEvent>(event: T): Promise<EventResult> {
         return await (await fetch(`${this._options.talkHost}/chatbot/v1/event`, {
             method: 'POST',
             headers: {

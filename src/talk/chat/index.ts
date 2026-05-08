@@ -14,27 +14,8 @@
  * limitations under the License.
  */
 
-import { ChatContent, ChatType } from '../../chat';
-import { TextTalkChatData } from './text';
-import { ImageTalkChatData } from './image';
-import { CompositeTalkChatData } from './composite';
-
-export abstract class TalkChatData {
-    protected constructor(
-        protected chatContent: ChatContent
-    ) {}
-
-    abstract get type(): ChatType;
-
-    isTextType(): this is TextTalkChatData {
-        return this.type === ChatType.TEXT;
-    }
-
-    isImageType(): this is ImageTalkChatData {
-        return this.type === ChatType.IMAGE;
-    }
-
-    isComposite(): this is CompositeTalkChatData {
-        return this.type === ChatType.COMPOSITE;
-    }
-}
+export * from './data';
+export * from './factory';
+export * from './text';
+export * from './image';
+export * from './composite';

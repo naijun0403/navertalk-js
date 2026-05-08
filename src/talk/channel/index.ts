@@ -32,14 +32,19 @@ export class TalkChannel {
     }
 
     async send(chat: string | ChatContent): Promise<EventResult> {
-        let req: Partial<SendEvent> = {
-            event: 'send',
-            user: this._userId,
-        }
+        const event: SendEvent = typeof chat === 'string'
+            ? {
+                event: 'send',
+                user: this._userId,
+                textContent: { text: chat },
+            }
+            : {
+                event: 'send',
+                user: this._userId,
+                ...chat,
+            };
 
-        req = typeof chat === 'string' ? { ...req, textContent: { text: chat } } : { ...req, ...chat }
-
-        return await this._session.requestEvent<SendEvent>(req as SendEvent);
+        return await this._session.requestEvent(event);
     }
 
 }

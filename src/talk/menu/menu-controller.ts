@@ -14,19 +14,27 @@
  * limitations under the License.
  */
 
-import { PersistentMenuEvent } from "../../event/persistentMenu";
-import { MenuContent } from "../../menu";
-import { TalkClientSession } from "../client/session";
+import { PersistentMenuEvent } from '../../event/persistentMenu';
+import { MenuContent } from '../../menu';
+import { EventResult } from '../../request';
+import { TalkClientSession } from '../client/session';
 
 export class MenuController {
     constructor(
         private _session: TalkClientSession
     ) {}
 
-    async setMenu(menuContent: MenuContent) {
+    async setMenu(menuContent: MenuContent | MenuContent[]): Promise<EventResult> {
         return await this._session.requestEvent<PersistentMenuEvent>({
             event: 'persistentMenu',
-            menuContent,
+            menuContent: Array.isArray(menuContent) ? menuContent : [menuContent],
+        });
+    }
+
+    async clearMenu(): Promise<EventResult> {
+        return await this._session.requestEvent<PersistentMenuEvent>({
+            event: 'persistentMenu',
+            menuContent: [],
         });
     }
 }

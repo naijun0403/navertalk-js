@@ -14,7 +14,69 @@
  * limitations under the License.
  */
 
-import { TalkClient, createWebhookClient } from 'navertalk-js';
+import { ChatContent, MenuContent, QuickReply, TalkClient, createWebhookClient } from 'navertalk-js';
+
+const quickReply: QuickReply = {
+    buttonList: [
+        {
+            type: 'TEXT',
+            data: {
+                title: '도움말',
+                code: 'HELP',
+            },
+        },
+        {
+            type: 'LINK',
+            data: {
+                title: '톡톡 열기',
+                url: 'https://talk.naver.com/',
+                mobileUrl: 'https://talk.naver.com/',
+            },
+        },
+    ],
+};
+
+const persistentMenu: MenuContent = {
+    menus: [
+        {
+            type: 'TEXT',
+            data: {
+                title: '도움말',
+                code: 'HELP',
+            },
+        },
+        {
+            type: 'LINK',
+            data: {
+                title: '홈페이지',
+                url: 'https://talk.naver.com/',
+                mobileUrl: 'https://talk.naver.com/',
+            },
+        },
+        {
+            type: 'NESTED',
+            data: {
+                title: '더보기',
+                menus: [
+                    {
+                        type: 'TEXT',
+                        data: {
+                            title: '상담원 연결',
+                            code: 'CONTACT',
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+};
+
+const helpMessage: ChatContent = {
+    textContent: {
+        text: '사용할 수 있는 명령어: !ping, !image, !menu',
+        quickReply,
+    },
+};
 
 async function main() {
     const client = await TalkClient.create(
@@ -23,19 +85,69 @@ async function main() {
             port: 8080,
             path: '/webhook',
             options: {
-                logger: true
-            }
+                logger: true,
+            },
         }),
-        'YOUR_API_KEY',
+        process.env.NAVER_TALK_AUTHORIZATION ?? 'YOUR_API_KEY',
     );
 
-    client.on('on_send', async (chat, channel) => {
-        console.log('on_send', chat, channel);
+    client.on('on_open', async (event, channel) => {
+        console.log('on_open', event.options.inflow, event.user);
+        await channel.send(helpMessage);
+    });
 
-        if (chat.isTextType() && chat.text === '!ping') {
-            await channel.send('!ping');
+    client.on('on_friend', async (event, channel) => {
+        const text = event.options.set === 'on'
+            ? '친구 추가 감사합니다.'
+            : '친구 철회가 처리되었습니다.';
+
+        await channel.send({ textContent: { text } });
+    });
+
+    client.on('on_send', async (chat, channel) => {
+        console.log('on_send', chat.type, channel.userId);
+
+        if (!chat.isTextType()) {
+            await channel.send('텍스트 메시지만 처리하는 예제입니다.');
+            return;
+        }
+
+        switch (chat.code ?? chat.text) {
+            case 'HELP':
+            case '!menu':
+                await channel.send(helpMessage);
+                return;
+
+            case '!ping':
+                await channel.send('pong');
+                return;
+
+            case '!image':
+                await channel.send({
+                    imageContent: {
+                        imageUrl: 'https://ssl.pstatic.net/static/talk/biztalk/img_profile_default.png',
+                        quickReply,
+                    },
+                });
+                return;
+
+            default:
+                await channel.send({
+                    textContent: {
+                        text: `echo: ${chat.text}`,
+                        quickReply,
+                    },
+                });
         }
     });
+
+    client.on('on_echo', event => {
+        console.log('on_echo', event.partner, event.echoedEvent);
+    });
+
+    if (process.env.SET_PERSISTENT_MENU === 'true') {
+        await client.menuController.setMenu(persistentMenu);
+    }
 
     await client.start();
 

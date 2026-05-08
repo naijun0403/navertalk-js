@@ -14,6 +14,12 @@
  * limitations under the License.
  */
 
+import type { Event } from './index';
+
+export type FriendEvent = Event<FriendEventOptions, 'friend'> & {
+    options: FriendEventOptions;
+};
+
 export interface FriendEventOptions {
     set: 'on' | 'off';
 }

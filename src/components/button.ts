@@ -16,34 +16,40 @@
 
 export type ButtonType = 'TEXT' | 'LINK' | 'OPTION' | 'PAY';
 
-export interface IButton {
-    type: ButtonType;
-    data: unknown;
+export interface IButton<TType extends ButtonType = ButtonType, TData = unknown> {
+    type: TType;
+    data: TData;
 }
 
-export interface TextButton extends IButton {
+export interface TextButton extends IButton<'TEXT', {
+    title: string;
+    code?: string;
+}> {
     type: 'TEXT';
-    data: {
-        title: string;
-        code: string;
-    }
 }
 
-export interface LinkButton extends IButton {
+export interface LinkButton extends IButton<'LINK', {
+    title: string;
+    url: string;
+    mobileUrl: string;
+}> {
     type: 'LINK';
-    data: {
-        title: string;
-        url: string;
-        mobileUrl: string;
-    }
 }
 
-export interface OptionButton extends IButton {
+export interface PayButton extends IButton<'PAY', {
+    payKey: string;
+}> {
+    type: 'PAY';
+}
+
+export type QuickReplyButton = TextButton | LinkButton | PayButton;
+export type ElementButton = TextButton | LinkButton;
+
+export interface OptionButton extends IButton<'OPTION', {
+    title: string;
+    buttonList: QuickReplyButton[];
+}> {
     type: 'OPTION';
-    data: {
-        title: string;
-        buttonList: Button[];
-    }
 }
 
-export type Button = TextButton | LinkButton | OptionButton | IButton;
+export type Button = TextButton | LinkButton | OptionButton | PayButton;

@@ -14,6 +14,12 @@
  * limitations under the License.
  */
 
+import type { Event } from './index';
+
+export type ActionEvent = Event<ActionEventOptions, 'action'> & {
+    options: ActionEventOptions;
+};
+
 export interface ActionEventOptions {
     action: 'typingOn' | 'typingOff';
 }

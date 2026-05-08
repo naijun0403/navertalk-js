@@ -19,4 +19,5 @@ export * from './talk';
 export * from './webhook';
 export * from './chat';
 export * from './components';
+export * from './menu';
 export * from './request';

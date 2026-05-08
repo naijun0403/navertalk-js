@@ -20,34 +20,31 @@ export interface MenuContent {
     menus: Menu[];
 }
 
-export interface IMenu {
-    type: MenuType;
-    data: unknown;
+export interface IMenu<TType extends MenuType = MenuType, TData = unknown> {
+    type: TType;
+    data: TData;
 }
 
-export interface TextMenu extends IMenu {
+export interface TextMenu extends IMenu<'TEXT', {
+    title: string;
+    code: string;
+}> {
     type: 'TEXT';
-    data: {
-        title: string;
-        code: string;
-    }
 }
 
-export interface LinkMenu extends IMenu {
+export interface LinkMenu extends IMenu<'LINK', {
+    title: string;
+    url: string;
+    mobileUrl?: string;
+}> {
     type: 'LINK';
-    data: {
-        title: string;
-        url: string;
-        mobileUrl: string;
-    }
 }
 
-export interface NestedMenu extends IMenu {
+export interface NestedMenu extends IMenu<'NESTED', {
+    title: string;
+    menus: Menu[];
+}> {
     type: 'NESTED';
-    data: {
-        title: string;
-        menus: MenuContent;
-    }
 }
 
 export type Menu = TextMenu | LinkMenu | NestedMenu;

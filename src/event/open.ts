@@ -14,11 +14,17 @@
  * limitations under the License.
  */
 
+import type { Event } from './index';
+
 export enum OpenInflow {
     BUTTON = 'button',
     LIST = 'list',
     NONE = 'none',
 }
+
+export type OpenEvent = Event<OpenEventOptions, 'open'> & {
+    options: OpenEventOptions;
+};
 
 export interface OpenEventOptions {
     inflow: OpenInflow;

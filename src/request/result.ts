@@ -17,5 +17,5 @@
 export interface EventResult {
     success: boolean;
     resultCode: string;
-    resultMessage: string;
+    resultMessage?: string;
 }

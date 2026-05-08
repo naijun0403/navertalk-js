@@ -14,15 +14,24 @@
  * limitations under the License.
  */
 
-import { TalkChatData } from './index';
-import { ChatContent, ChatType } from '../../chat';
+import { ImageChatContent, ChatType } from '../../chat';
+import { QuickReply } from '../../components';
+import { TalkChatData } from './data';
 
-export class ImageTalkChatData extends TalkChatData {
-    constructor(chatContent: ChatContent) {
+export class ImageTalkChatData extends TalkChatData<ImageChatContent> {
+    constructor(chatContent: ImageChatContent) {
         super(chatContent);
     }
 
     get type(): ChatType {
         return ChatType.IMAGE;
+    }
+
+    get imageUrl(): string {
+        return this.chatContent.imageContent.imageUrl;
+    }
+
+    get quickReply(): QuickReply | undefined {
+        return this.chatContent.imageContent.quickReply;
     }
 }

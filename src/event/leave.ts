@@ -14,18 +14,6 @@
  * limitations under the License.
  */
 
-import { Image } from './image';
-import { ElementButton } from './button';
+import type { Event } from './index';
 
-export interface ElementList {
-    type: 'LIST';
-    data: ElementData[];
-}
-
-export interface ElementData {
-    title: string;
-    description?: string;
-    subDescription?: string;
-    image?: Image;
-    button?: ElementButton;
-}
+export type LeaveEvent = Event<never, 'leave'>;

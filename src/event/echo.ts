@@ -14,16 +14,17 @@
  * limitations under the License.
  */
 
-import { ChatContent } from "../chat";
-import { EventType, Event } from "./index";
+import { ChatContent } from '../chat';
+import type { Event } from './index';
 
-export type EchoEvent = Event<EchoEventOptions> & ChatContent & ExtendEchoEvent;
+export type EchoEvent = Event<EchoEventOptions, 'echo'> & ChatContent & ExtendEchoEvent;
 
 export interface EchoEventOptions {
     mobile: boolean;
 }
 
 interface ExtendEchoEvent {
-    echoedEvent: EventType;
+    echoedEvent: 'send';
     partner: string;
+    options: EchoEventOptions;
 }

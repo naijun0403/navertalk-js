@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-import { TalkChatData } from './index';
-import { ChatContent, ChatType, InputType } from '../../chat';
+import { TextChatContent, ChatType, InputType } from '../../chat';
+import { QuickReply } from '../../components';
+import { TalkChatData } from './data';
 
-export class TextTalkChatData extends TalkChatData {
-    constructor(chatContent: ChatContent) {
+export class TextTalkChatData extends TalkChatData<TextChatContent> {
+    constructor(chatContent: TextChatContent) {
         super(chatContent);
     }
 
@@ -27,14 +28,18 @@ export class TextTalkChatData extends TalkChatData {
     }
 
     get text(): string {
-        return this.chatContent.textContent?.text!!
+        return this.chatContent.textContent.text;
     }
 
-    get code(): string {
-        return this.chatContent.textContent?.code!!;
+    get code(): string | undefined {
+        return this.chatContent.textContent.code;
     }
 
-    get inputType(): InputType {
-        return this.chatContent.textContent?.inputType!!;
+    get inputType(): InputType | undefined {
+        return this.chatContent.textContent.inputType;
+    }
+
+    get quickReply(): QuickReply | undefined {
+        return this.chatContent.textContent.quickReply;
     }
 }

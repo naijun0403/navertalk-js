@@ -16,7 +16,7 @@
 
 import { WebhookClient } from '../../webhook';
 import { EventHandler, NaverTalkEventHandler } from '../event';
-import { Event } from '../../event';
+import { isIncomingEvent, WebhookEventPayload } from '../../event';
 import { ClientEvent } from './event';
 import { TalkClientSession } from './session';
 import { TypedEmitter } from 'tiny-typed-emitter';
@@ -54,40 +54,26 @@ export class TalkClient extends TypedEmitter<ClientEvent> {
                 this.emit('on_error', error);
                 return;
             }
+            this.emit('on_error', new Error(String(error)));
         }
     }
 
-    private async handleEvent(event: Event) {
+    private async handleEvent(event: WebhookEventPayload) {
+        if (!isIncomingEvent(event)) {
+            this.emit('on_error', new Error(`Unhandled event: ${event.event}`));
+            return;
+        }
+
         this.emit('on_event', event);
+
         try {
-            switch (event.event) {
-                case 'open':
-                    await this._eventHandler.handleOpen(event);
-                    break;
-                case 'leave':
-                    await this._eventHandler.handleLeave(event);
-                    break;
-                case 'friend':
-                    await this._eventHandler.handleFriend(event);
-                    break;
-                case 'send':
-                    await this._eventHandler.handleSend(event);
-                    break;
-                case 'echo':
-                    await this._eventHandler.handleEcho(event);
-                    break;
-                case 'action':
-                    await this._eventHandler.handleAction(event);
-                    break;
-                default:
-                    this.emit('on_error', new Error(`Unhandled event: ${event.event}`));
-                    break;
-            }
+            await this._eventHandler.handle(event);
         } catch (error) {
             if (error instanceof Error) {
                 this.emit('on_error', error);
                 return;
             }
+            this.emit('on_error', new Error(String(error)));
         }
     }
 

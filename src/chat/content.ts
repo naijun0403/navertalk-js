@@ -18,8 +18,49 @@ import { TextContent } from './text';
 import { ImageContent } from './image';
 import { CompositeContent } from './composite';
 
-export class ChatContent {
+export interface ChatContentFields {
     textContent?: TextContent;
     imageContent?: ImageContent;
     compositeContent?: CompositeContent;
+}
+
+export interface TextChatContent extends ChatContentFields {
+    textContent: TextContent;
+    imageContent?: never;
+    compositeContent?: never;
+}
+
+export interface ImageChatContent extends ChatContentFields {
+    textContent?: never;
+    imageContent: ImageContent;
+    compositeContent?: never;
+}
+
+export interface CompositeChatContent extends ChatContentFields {
+    textContent?: never;
+    imageContent?: never;
+    compositeContent: CompositeContent;
+}
+
+export type ChatContent = TextChatContent | ImageChatContent | CompositeChatContent;
+
+export type ChatContentKey = keyof ChatContentFields;
+
+export function getChatContentKey(content: ChatContentFields): ChatContentKey | undefined {
+    const keys = (['textContent', 'imageContent', 'compositeContent'] as const)
+        .filter(key => content[key] !== undefined);
+
+    return keys.length === 1 ? keys[0] : undefined;
+}
+
+export function isTextChatContent(content: ChatContentFields): content is TextChatContent {
+    return getChatContentKey(content) === 'textContent';
+}
+
+export function isImageChatContent(content: ChatContentFields): content is ImageChatContent {
+    return getChatContentKey(content) === 'imageContent';
+}
+
+export function isCompositeChatContent(content: ChatContentFields): content is CompositeChatContent {
+    return getChatContentKey(content) === 'compositeContent';
 }

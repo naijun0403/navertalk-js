@@ -14,23 +14,23 @@
  * limitations under the License.
  */
 
-import { Event, OpenEventOptions, FriendEventOptions, EchoEvent, ActionEventOptions } from '../../event';
+import { ActionEvent, EchoEvent, FriendEvent, IncomingEvent, LeaveEvent, OpenEvent } from '../../event';
 import { TalkChatData } from '../chat';
 import { TalkChannel } from '../channel';
 
 export type ClientEvent = {
-    on_event: (event: Event) => void;
+    on_event: (event: IncomingEvent) => void;
     on_error: (error: Error) => void;
 
-    on_open: (event: Event<OpenEventOptions>, channel: TalkChannel) => void;
+    on_open: (event: OpenEvent, channel: TalkChannel) => void;
 
-    on_leave: (event: Event) => void;
+    on_leave: (event: LeaveEvent) => void;
 
-    on_friend: (event: Event<FriendEventOptions>, channel: TalkChannel) => void;
+    on_friend: (event: FriendEvent, channel: TalkChannel) => void;
 
     on_send: (chat: TalkChatData, channel: TalkChannel) => void;
 
     on_echo: (event: EchoEvent, channel: TalkChannel) => void;
 
-    on_action: (event: Event<ActionEventOptions>, channel: TalkChannel) => void;
+    on_action: (event: ActionEvent, channel: TalkChannel) => void;
 }

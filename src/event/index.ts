@@ -14,20 +14,48 @@
  * limitations under the License.
  */
 
+import type { ActionEvent } from './action';
+import type { EchoEvent } from './echo';
+import type { FriendEvent } from './friend';
+import type { LeaveEvent } from './leave';
+import type { OpenEvent } from './open';
+import type { PersistentMenuEvent } from './persistentMenu';
+import type { SendEvent } from './send';
+
+export type IncomingEventType = 'open' | 'leave' | 'friend' | 'send' | 'echo' | 'action';
+export type EventType = IncomingEventType | 'persistentMenu';
+
 /**
- * basic event interface
+ * basic incoming event interface
  * @reference https://github.com/navertalk/chatbot-api?tab=readme-ov-file#%EC%9D%B4%EB%B2%A4%ED%8A%B8-%EA%B8%B0%EB%B3%B8-%EA%B5%AC%EC%A1%B0
  */
-export interface Event<T = Record<string, unknown>> {
-    event: EventType;
-    options: T;
+export interface Event<TOptions = Record<string, unknown>, TEvent extends IncomingEventType = IncomingEventType> {
+    event: TEvent;
+    options?: TOptions;
     user: string;
 }
 
-export type EventType = 'open' | 'leave' | 'friend' | 'send' | 'echo' | 'action' | 'persistentMenu';
+export interface UnknownWebhookEvent {
+    event: string;
+    options?: unknown;
+    user?: string;
+    [key: string]: unknown;
+}
+
+export type IncomingEvent = OpenEvent | LeaveEvent | FriendEvent | SendEvent | EchoEvent | ActionEvent;
+export type OutgoingEvent = SendEvent | ActionEvent | PersistentMenuEvent;
+export type WebhookEventPayload = IncomingEvent | UnknownWebhookEvent;
+
+const incomingEventTypes = new Set<IncomingEventType>(['open', 'leave', 'friend', 'send', 'echo', 'action']);
+
+export function isIncomingEvent(payload: WebhookEventPayload): payload is IncomingEvent {
+    return incomingEventTypes.has(payload.event as IncomingEventType) && typeof payload.user === 'string';
+}
 
 export * from './echo';
 export * from './open';
+export * from './leave';
 export * from './friend';
 export * from './send';
 export * from './action';
+export * from './persistentMenu';

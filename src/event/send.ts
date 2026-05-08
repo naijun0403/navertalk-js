@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-import { Event } from './index';
+import type { Event } from './index';
 import { ChatContent } from '../chat';
 
-export type SendEvent = Event<SendEventOptions> & ChatContent;
+export type SendEvent = Event<SendEventOptions, 'send'> & ChatContent;
 
 export interface SendEventOptions {
-    notification: boolean;
+    notification?: boolean;
 }
